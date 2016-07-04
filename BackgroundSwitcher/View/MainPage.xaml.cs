@@ -1,4 +1,6 @@
-﻿using System;
+﻿using BackgroundSwitcher.Model;
+using BackgroundSwitcher.ViewModel;
+using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
@@ -22,9 +24,31 @@ namespace BackgroundSwitcher
     /// </summary>
     public sealed partial class MainPage : Page
     {
+        private MainPageViewModel vm;
         public MainPage()
         {
             this.InitializeComponent();
+            vm = (MainPageViewModel)DataContext;
+        }
+
+        private void AutoSuggestBox_QuerySubmitted(AutoSuggestBox sender, AutoSuggestBoxQuerySubmittedEventArgs args)
+        {
+            if (args.ChosenSuggestion != null)
+            {
+                vm.querry = args.ChosenSuggestion.ToString();
+            } else
+            {
+                vm.querry = args.QueryText;
+            }
+            vm.querrySubmitted();
+        }
+
+        private void AutoSuggestBox_TextChanged(AutoSuggestBox sender, AutoSuggestBoxTextChangedEventArgs args)
+        {
+            if (args.Reason == AutoSuggestionBoxTextChangeReason.UserInput)
+            {
+                vm.querry = vm.suggestBoxText;
+            }
         }
     }
 }

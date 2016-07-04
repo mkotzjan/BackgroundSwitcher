@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace BackgroundSwitcher.ViewModel
 {
-    class BaseViewModel : INotifyPropertyChanged
+    public class BaseViewModel : INotifyPropertyChanged
     {
         public void RaisePropertyChanged(string prop)
         {
