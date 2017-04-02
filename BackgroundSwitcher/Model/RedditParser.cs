@@ -1,4 +1,8 @@
-﻿using System;
+﻿using Newtonsoft.Json;
+using System;
+using System.Collections.Generic;
+using System.Collections.ObjectModel;
+using System.Threading.Tasks;
 using Windows.Data.Json;
 using Windows.Web.Http.Filters;
 
@@ -7,7 +11,8 @@ namespace BackgroundSwitcher.Model
     public static class RedditParser
     {
         private static bool exist = false;
-        private static JsonObject jo = null;
+        private static RootObject result = null;
+
         public static bool subredditExist(string subreddit)
         {
             parseJSON("https://www.reddit.com/r/" + subreddit + ".json?limit=1");
@@ -15,10 +20,24 @@ namespace BackgroundSwitcher.Model
             return exist;
         }
 
+        public static List<Subreddit> getSubredditsByName(string querry)
+        {
+            List<Subreddit> subreddits = new List<Subreddit>();
+            parseJSON("https://www.reddit.com/subreddits/search.json?q=" + querry + "&limit=5");
+
+            List<Child> children = result.data.children;
+            foreach (Child child in children)
+            {
+                subreddits.Add(new Subreddit(child.data.display_name));
+            }
+
+            return subreddits;
+        }
+
         private static void refresh()
         {
             exist = false;
-            jo = null;
+            result = null;
         }
 
         private static async void parseJSON(string url)
@@ -41,8 +60,7 @@ namespace BackgroundSwitcher.Model
                 httpResponse = await httpClient.GetAsync(requestUri);
                 httpResponse.EnsureSuccessStatusCode();
                 httpResponseBody = await httpResponse.Content.ReadAsStringAsync();
-                JsonValue jv = JsonValue.Parse(httpResponseBody);
-                jo = jv.GetObject();
+                result = JsonConvert.DeserializeObject<RootObject>(httpResponseBody);
             }
             catch (Exception ex)
             {

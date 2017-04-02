@@ -89,16 +89,19 @@
   </PropertyGroup>
   <ItemGroup>
     <!-- A reference to the entire .Net Framework and Windows SDK are automatically included -->
-    <None Include="Model\subreddits.json" />
     <None Include="project.json" />
   </ItemGroup>
   <ItemGroup>
     <Compile Include="App.xaml.cs">
       <DependentUpon>App.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Model\JSON\Child.cs" />
+    <Compile Include="Model\JSON\Data.cs" />
+    <Compile Include="Model\JSON\Data2.cs" />
+    <Compile Include="Model\JSON\RootObject.cs" />
     <Compile Include="Model\RedditParser.cs" />
     <Compile Include="Model\DelegateCommand.cs" />
-    <Compile Include="Model\SearchQueries.cs" />
+    <Compile Include="Model\SimpleTextToastManager.cs" />
     <Compile Include="Model\Subreddit.cs" />
     <Compile Include="ViewModel\MainPageViewModel.cs" />
     <Compile Include="View\MainPage.xaml.cs">

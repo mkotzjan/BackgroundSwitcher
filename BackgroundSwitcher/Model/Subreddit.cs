@@ -10,11 +10,13 @@ namespace BackgroundSwitcher.Model
     {
         private string _name;
         private string _id;
+        private bool _valid;
 
         public Subreddit(string name)
         {
             this.name = name;
             this._id = name.ToLower();
+            this.valid = true;
         }
         
         public string name
@@ -48,6 +50,23 @@ namespace BackgroundSwitcher.Model
         public bool Equals(Subreddit other)
         {
             return name.Equals(other.name);
+        }
+
+        public bool valid
+        {
+            get
+            {
+                return this._valid;
+            }
+
+            set
+            {
+                if(value != this._valid)
+                {
+                    this._valid = value;
+                    this.RaisePropertyChanged(nameof(valid));
+                }
+            }
         }
     }
 }

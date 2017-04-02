@@ -76,7 +76,7 @@ namespace BackgroundSwitcher.ViewModel
                 suggestions.Clear();
             } else
             {
-                suggestions = availableSubreddits.FindAll(x => x.getId().Contains(_querry.ToLower()));
+                //suggestions = RedditParser.getSubredditsByName(this._querry);
             }
         }
 
@@ -153,6 +153,8 @@ namespace BackgroundSwitcher.ViewModel
         {
             if(!selectedSubreddits.Contains(new Subreddit(querry)))
                 selectedSubreddits.Add(new Subreddit(querry));
+            SimpleTextToastManager tm = SimpleTextToastManager.Instance;
+            tm.ShowToast("Test", querry + " added!");
             querry = string.Empty;
             suggestBoxText = string.Empty;
         }

@@ -6,6 +6,8 @@
     xmlns:viewmodel="using:BackgroundSwitcher.ViewModel"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    xmlns:Interactivity="using:Microsoft.Xaml.Interactivity" 
+    xmlns:Core="using:Microsoft.Xaml.Interactions.Core"
     mc:Ignorable="d">
     <Page.DataContext>
         <viewmodel:MainPageViewModel/>
@@ -41,6 +43,9 @@
                     <AutoSuggestBox Grid.Row="0" PlaceholderText="Select a subreddit..." Text="{Binding Path=suggestBoxText, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" TextChanged="AutoSuggestBox_TextChanged" QueryIcon="Find" ItemsSource="{Binding Path=suggestions}" QuerySubmitted="AutoSuggestBox_QuerySubmitted"/>
                     <ScrollViewer Grid.Row="1" HorizontalScrollBarVisibility="Auto">
                         <ListView SelectionMode="Single" ItemsSource="{Binding Path=selectedSubreddits}" SelectedIndex="{Binding Path=selectedIndex, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}">
+                            <Interactivity:Interaction.Behaviors>
+                                <Core:DataTriggerBehavior Binding="{Binding selectedSubreddits[0].valid}" Value="True"/>
+                            </Interactivity:Interaction.Behaviors>
                             <ListView.ItemTemplate>
                                 <DataTemplate>
                                     <StackPanel>
